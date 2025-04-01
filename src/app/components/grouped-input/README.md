@@ -1,6 +1,6 @@
-# Angular Grouped Input Pagination
+# Grouped Input Component
 
-This project demonstrates how to create an Angular component with rows of inputs grouped by a group name. The component includes pagination based on the number of rows and displays them in a grouped view with the group name shown above each group of input rows. The data is stored in IndexedDB using a sharded approach for efficient data management. Additionally, Web Workers are used to enhance performance by offloading heavy data processing tasks to background threads.
+The `GroupedInputComponent` displays rows of inputs grouped by a group name with pagination. It integrates with IndexedDB for efficient data storage and retrieval, and utilizes Web Workers to handle data processing tasks in the background.
 
 ## Features
 
@@ -10,39 +10,15 @@ This project demonstrates how to create an Angular component with rows of inputs
 - Dynamic adjustment of rows per page
 - Enhanced performance using Web Workers
 
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/itzmedevsurya/Sharded-Clientside-Pagination.git
-   cd Sharded-Clientside-Pagination
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Run the application:
-   ```bash
-   ng serve
-   ```
-
-## Usage
-
-### Grouped Input Component
-
-The `GroupedInputComponent` displays rows of inputs grouped by a group name with pagination. It integrates with IndexedDB for efficient data storage and retrieval, and utilizes Web Workers to handle data processing tasks in the background.
-
-#### Inputs
+## Inputs
 
 - `inputData`: An object of type `ShardedInputGroups` representing the sharded input data.
 
-#### Example Usage
+## Usage
 
 ```typescript
 import { Component } from '@angular/core';
-import { ShardedInputGroups } from './models/sharded-input.model';
+import { ShardedInputGroups } from '../../models/sharded-input.model';
 
 @Component({
   selector: 'app-root',
@@ -61,18 +37,18 @@ export class AppComponent {
 }
 ```
 
-### Web Workers Integration
+## Web Workers Integration
 
-This project uses Web Workers to handle data processing tasks in the background, ensuring the UI remains responsive even when dealing with large datasets.
+This component uses a Web Worker to process data in the background, ensuring the UI remains responsive.
 
-#### Creating a Web Worker
+### Web Worker Implementation
 
-The Web Worker is defined in `src/app/workers/data-worker.worker.ts` and handles tasks such as sharding data and retrieving specific shards.
+The Web Worker is defined in `src/app/workers/data-worker.worker.ts` and handles tasks like sharding data and retrieving specific shards.
 
-```typescript name=src/app/workers/data-worker.worker.ts
+```typescript
 /// <reference lib="webworker" />
 
-import { Shard, InputGroup, InputRow } from '../models/sharded-input.model';
+import { Shard, InputGroup, InputRow } from '../../models/sharded-input.model';
 
 addEventListener('message', ({ data }) => {
   const { action, payload } = data;
@@ -132,7 +108,7 @@ function getShard(shardId: number, shardSize: number, groups: InputGroup[]) {
 
 The `GroupedInputComponent` uses the Web Worker to handle data processing tasks.
 
-```typescript name=src/app/components/grouped-input/grouped-input.component.ts
+```typescript
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Shard, ShardedInputGroups } from '../../models/sharded-input.model';
 
