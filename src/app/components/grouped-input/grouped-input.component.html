@@ -1,0 +1,33 @@
+<div *ngIf="currentShard">
+  <div *ngFor="let group of currentShard.groups">
+    <h3>{{ group.groupName }}</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>VM Name</th>
+          <th>IP Address</th>
+          <th>Subnet Mask</th>
+          <th>Default Gateway</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of group.rows.slice(0, rowsPerPage)">
+          <td>{{ row.vmName }}</td>
+          <td><input [value]="row.ipAddress" /></td>
+          <td><input [value]="row.subnetMask" /></td>
+          <td><input [value]="row.defaultGateway" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <button (click)="nextPage()" [disabled]="currentPage * rowsPerPage >= shardedInputGroups.totalRows">Next</button>
+  </div>
+  <div>
+    <label for="rowsPerPage">Rows per page:</label>
+    <select id="rowsPerPage" (change)="setRowsPerPage($event.target.value)">
+      <option *ngFor="let n of [10, 15, 20]" [value]="n">{{ n }}</option>
+    </select>
+  </div>
+</div>
